@@ -1,0 +1,193 @@
+	<!DOCTYPE html>
+	<html lang="de">
+	<head>
+	  <meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <title>Flat Design Flexbox Seite</title>
+	  <style>
+		/* Grundlegende Schriftart */
+		body {
+		  margin: 0;
+		  font-family: Consolas, monospace;
+		  background-color: #f0f0f0;
+		  color: #333;
+		}
+
+		/* Sticky Header im Flat Design */
+		header {
+		  position: sticky;
+		  top: 0;
+		  background-color: #2d89ef;
+		  color: white;
+		  padding: 1rem 0;
+		  text-align: center;
+		  z-index: 1000;
+		}
+
+		nav {
+		  display: flex;
+		  justify-content: center;
+		  gap: 2rem;
+		}
+
+		nav a {
+		  color: white;
+		  text-decoration: none;
+		  font-weight: bold;
+		  transition: background-color 0.2s ease;
+		  padding: 0.5rem 1rem;
+		  border-radius: 5px;
+		}
+
+		nav a:hover {
+		  background-color: #1b5fc5;
+		}
+
+		/* Flex-Container */
+		.container {
+		  display: flex;
+		  justify-content: center;
+		  gap: 2rem;
+		  flex-wrap: wrap;
+		  max-width: 800px;
+		  margin: 2rem auto;
+		}
+
+		.box {
+		  background-color: white;
+		  padding: 2rem;
+		  flex: 1 1 300px;
+		  min-width: 300px;
+		  box-sizing: border-box;
+		  text-align: center;
+		  border-radius: 6px;
+		  border: 2px solid #ddd;
+		  transition: background-color 0.2s ease;
+		}
+
+		.box:hover {
+		  background-color: #e8e8e8;
+		}
+
+		/* Medienregel für breite Bildschirme */
+		@media screen and (min-width: 2000px) {
+		  .container {
+			flex-direction: column;
+			align-items: center;
+		  }
+		}
+		
+		
+		/*Slider */
+		
+		  .slider {
+		  position: relative;
+		  width: 600px;
+		  height: 350px;
+		  overflow: hidden;
+		
+		}
+
+		.slide {
+		  position: absolute;
+		  width: 100%;
+		  height: 100%;
+		  background-size: cover;
+		  background-position: center;
+		  top: 0;
+		  left: 0;
+		  transform: translateY(0);
+		  transition: transform 0.6s ease;
+		}
+
+		.hidden {
+		  display: none;
+		}
+
+		.slider-button {
+		  position: absolute;
+		  top: 20px;
+		  left: 50%;
+		  transform: translateX(-50%);
+		  z-index: 10;
+		  width: 50px;
+		  height: 50px;
+		  border-radius: 50%;
+		  border: none;
+		  background: rgba(255,255,255,0.8);
+		  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+		  font-size: 20px;
+		  cursor: pointer;
+		}
+		
+	  </style>
+	</head>
+	<body>
+
+	  <header>
+		<nav>
+		  <a href="#home">Home</a>
+		  <a href="#gallerie">Galerie</a>
+		  <a href="#kontakt">Kontakt</a>
+		</nav>
+	  </header>
+
+	  <main>
+		<div class="container">
+		  <div class="box">Box 1 – Inhalt oder Komponente</div>
+		  <div class="box">
+				  <div class="slider">
+			  <div id="slide1" class="slide" style="background-image: url('img1.jpg'); z-index: 1;"></div>
+			  <div id="slide2" class="slide hidden" style="background-image: url('img2.jpg'); z-index: 0;"></div>
+			  <button class="slider-button">⇄</button>
+			</div>
+
+			<script>
+			  const slide1 = document.getElementById('slide1');
+			  const slide2 = document.getElementById('slide2');
+			  const button = document.querySelector('.slider-button');
+
+			  let showingFirst = true;
+			  let isAnimating = false;
+
+			  button.addEventListener('click', () => {
+				if (isAnimating) return;
+				isAnimating = true;
+
+				const current = showingFirst ? slide1 : slide2;
+				const next = showingFirst ? slide2 : slide1;
+
+
+
+				// Starte das aktuelle Bild nach unten rauszuschieben
+				current.style.zIndex = 2;
+				current.style.transform = 'translateY(100%)';
+
+				// Zeige das nächste Bild (außerhalb nach unten)
+				next.classList.remove('hidden');
+				next.style.transform = 'translateY(100%)';
+				next.style.zIndex = 1;
+
+				// Nach Bild-1 raus: Bild-2 rein
+				setTimeout(() => {
+				  next.style.transform = 'translateY(0)';
+				}, 620);
+
+				// Nach vollständiger Animation: reset
+				setTimeout(() => {
+				  current.classList.add('hidden');
+				  current.style.transform = 'translateY(0)';
+				  showingFirst = !showingFirst;
+				  isAnimating = false;
+				}, 1350); // etwas länger als doppelte Animationszeit
+			  });
+			</script>
+				  
+				  
+				  
+				  </div>
+				</div>
+			  </main>
+
+	</body>
+	</html>
